@@ -19,7 +19,8 @@ public class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.
      *
      */
     override fun onCreate(db: SQLiteDatabase?) {
-
+        TODO("first implement class TODO")
+        //db.execSQL(ToDo.CREATE_TABLE);
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
