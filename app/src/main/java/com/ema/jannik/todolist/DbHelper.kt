@@ -50,6 +50,23 @@ public class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.
         return id  // return newly inserted row id
     }
 
+    fun updateToDo(toDo: ToDo): Int {
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+        values.put(ToDo.COLUMN_TEXT, toDo.getText())
+
+        return db.update(ToDo.TABLE_NAME, values, ToDo.COLUMN_ID + " = ?",
+                arrayOf(String.valueOf(toDo.getId())))    // updating row
+    }
+
+    fun deleteToDo(toDo: ToDo) {
+        val db = this.writableDatabase
+        db.delete(ToDo.TABLE_NAME, ToDo.COLUMN_ID + " = ?",
+                arrayOf(String.valueOf(toDo.getId())))
+        db.close()
+    }
+
     /**
      * get the tuple withe the passed id.
      * //TODO ergänzrn
