@@ -14,7 +14,7 @@ import java.util.ArrayList
  * Created by Jannik on 8/1/2018.
  */
 
-public class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?,
+class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?,
                       version: Int) : SQLiteOpenHelper(context, name, factory, version) {
 
 
@@ -54,16 +54,16 @@ public class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.
         val db = this.writableDatabase
 
         val values = ContentValues()
-        values.put(ToDo.COLUMN_TEXT, toDo.getText())
+        values.put(ToDo.COLUMN_TEXT, toDo.text)
 
         return db.update(ToDo.TABLE_NAME, values, ToDo.COLUMN_ID + " = ?",
-                arrayOf(String.valueOf(toDo.getId())))    // updating row
+                arrayOf((toDo.id.toString())))    // updating row
     }
 
     fun deleteToDo(toDo: ToDo) {
         val db = this.writableDatabase
         db.delete(ToDo.TABLE_NAME, ToDo.COLUMN_ID + " = ?",
-                arrayOf(String.valueOf(toDo.getId())))
+                arrayOf(toDo.id.toString()))
         db.close()
     }
 
@@ -108,10 +108,10 @@ public class DbHelper(context: Context?, name: String?, factory: SQLiteDatabase.
         if (cursor.moveToFirst()) { // looping through all rows and adding to list
             do {
                 val toDo = ToDo()
-                toDo.Id = (cursor.getInt(cursor.getColumnIndex(ToDo.COLUMN_ID)))
-                toDo.Category(cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_CATEGORY)))
-                toDo.Text(cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_TEXT)))
-                toDo.Timestamp(cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_TIMESTAMP)))
+                toDo.id = cursor.getInt(cursor.getColumnIndex(ToDo.COLUMN_ID))
+                toDo.category = cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_CATEGORY))
+                toDo.text = cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_TEXT))
+                toDo.timestamp = cursor.getString(cursor.getColumnIndex(ToDo.COLUMN_TIMESTAMP))
 
                 toDos.add(toDo)
             } while (cursor.moveToNext())
